@@ -1,0 +1,28 @@
+---
+- name: install and run tomcat
+  hosts: xyz
+  tasks:
+          - name: update the system packages
+            yum:
+                    name: "*"
+                    state: latest
+
+          - name: Install the java-openjdk
+            yum:
+                    name: java-1.8.0-openjdk
+
+          - name: Downloading tomcat
+            get_url:
+                    url: https://dlcdn.apache.org/tomcat/tomcat-10/v10.0.23/bin/apache-tomcat-10.0.23.tar.gz
+                    dest: /usr/local
+
+          - name: Extracting tomcat
+            unarchive:
+                    src: "/usr/local/apache-tomcat-10.0.23.tar.gz"
+                    dest: /usr/local
+                    remote_src: yes
+
+
+          - name: starting tomcat
+            shell:
+                    nohup /usr/local/tomcat/bin/startup.sh
